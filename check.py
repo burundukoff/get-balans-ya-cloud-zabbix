@@ -1,9 +1,9 @@
 #!/usr/bin/env -S python3 -u
 import requests
+from sys import argv
 
 url_iam = 'https://iam.api.cloud.yandex.net/iam/v1/tokens'
 url_balans ='https://billing.api.cloud.yandex.net/billing/v1/billingAccounts' 
-api_token  = ''
 iam_token = ''
 
 
@@ -28,9 +28,12 @@ def get_balans(url_balans, iam_token):
     else:
         return response.status_code
 
-
-iam_token = get_iam(url_iam, api_token)
-balans = get_balans(url_balans, iam_token)
-print(iam_token)
-print(balans)
+if len(argv) <= 1:
+    print('required parameters are missing')
+else:
+    api_token  = argv[1]
+    iam_token = get_iam(url_iam, api_token)
+    balans = get_balans(url_balans, iam_token)
+#    print(iam_token)
+    print(balans)
 
